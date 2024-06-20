@@ -1,5 +1,6 @@
 #version 410 core
 
+uniform float colorPulse;
 uniform float PALETTE_0_RED;
 uniform float PALETTE_0_GREEN;
 uniform float PALETTE_0_BLUE;
@@ -15,11 +16,17 @@ uniform float PALETTE_3_BLUE;
 
 uniform float time;
 uniform vec2 resolution;
-uniform float iterations;
+uniform float iterationsX;
+uniform float iterationsY;
+uniform float iterationsZ;
+uniform float iterationsSphereX;
+uniform float iterationsSphereY;
+uniform float iterationsSphereZ;
 
 uniform float speed;
 
 uniform float fractalAmount;
+uniform float fractalAmountSphere;
 
 uniform float scaleSphere;
 uniform float scaleBox;
@@ -56,6 +63,11 @@ uniform float cameraX;
 uniform float cameraY;
 uniform float brightness;
 
+uniform float modulationRayX;
+uniform float modulationRayY;
+uniform float modulationRayZ;
+uniform float rayModulationFactor;
+
 in vec2 uv;
 
 out vec4 fragColor;
@@ -86,28 +98,7 @@ mat2 rot2D(float angle) {
     return mat2(c, -s, s, c);
 }
 
-float map(
-    vec3 p,
-    float posXsphere,
-    float posYsphere,
-    float posZsphere,
-    float posXbox,
-    float posYbox,
-    float posZbox,
-    float sphereSize,
-    float boxSize,
-    float groundHeight,
-    float time,
-    float boxLeftRightCrossfade,
-    float boxUpDownCrossfade,
-    float sphereLeftRightCrossfade,
-    float sphereUpDownCrossfade,
-    float modulation,
-    float fractalAmount,
-    float boxDisplacementX,
-    float boxDisplacementY,
-    float boxDisplacementZ
-) {
+float map(vec3 p, float posXsphere, float posYsphere, float posZsphere, float posXbox, float posYbox, float posZbox, float sphereSize, float boxSize, float groundHeight, float time, float boxLeftRightCrossfade, float boxUpDownCrossfade, float sphereLeftRightCrossfade, float sphereUpDownCrossfade, float modulationX, float modulationY, float modulationZ, float fractalAmountBox, float boxDisplacementX, float boxDisplacementY, float boxDisplacementZ, float modulationSphereX, float modulationSphereY, float modulationSphereZ, float fractalAmountSphere) {
     float left = time * 0.5;
     float right = -time * 0.5;
     float up = time * 0.5;
@@ -121,7 +112,21 @@ float map(
 
     float udResA = mix(up, down, sphereUpDownCrossfade);
     sphereFinalPos.xz = rot2D(udResA) * sphereFinalPos.xz;
-    float sphere = sdSphere(sphereFinalPos, sphereSize);
+
+		// fractal sphere
+	// sphereFinalPos = fract(sphereFinalPos) - 0.5;
+	// vec3 sphereFractal = fract(sphereFinalPos * modulation) - 0.5;
+    vec3 sphereFractal;
+    sphereFractal.x = fract(sphereFinalPos.x * modulationSphereX) - 0.5;
+    sphereFractal.y = fract(sphereFinalPos.y * modulationSphereY) - 0.5;
+    sphereFractal.z = fract(sphereFinalPos.z * modulationSphereZ) - 0.5;
+
+	// fractalAmount = 1.0;
+    sphereFinalPos = mix(sphereFinalPos, sphereFractal, smoothstep(0.0, 1.0, fractalAmountSphere));
+
+    vec3 sphereFinalFractal = sphereFinalPos;
+
+    float sphere = sdSphere(sphereFinalFractal, sphereSize);
 
     vec3 boxPos = vec3(posXbox, posYbox, posZbox);
     vec3 boxFinalPos = p - boxPos;
@@ -140,8 +145,13 @@ float map(
 
 	// fractal box
     // boxFinalPos = fract(boxFinalPos) - 0.5;
-    vec3 boxFinalPostmp = fract(boxFinalPos * modulation) - 0.5;
-    boxFinalPos = mix(boxFinalPos, boxFinalPostmp, fractalAmount);
+    // vec3 boxFractal = fract(boxFinalPos * modulation) - 0.5;
+    vec3 boxFractal;
+    boxFractal.x = fract(boxFinalPos.x * modulationX) - 0.5;
+    boxFractal.y = fract(boxFinalPos.y * modulationY) - 0.5;
+    boxFractal.z = fract(boxFinalPos.z * modulationZ) - 0.5;
+
+    boxFinalPos = mix(boxFinalPos, boxFractal, smoothstep(0.0, 1.0, fractalAmountBox));
 
     float box = sdBox(boxFinalPos, vec3(boxSize));
 
@@ -190,7 +200,14 @@ void main() {
 
     float GroundHeight = groundHeight * 10.0 - 5.0;
 
-    float modulation = iterations * 10.0 - 5.0;
+    float modulationX = iterationsX;
+    float modulationY = iterationsY;
+    float modulationZ = iterationsZ;
+    float modulationSphereX = iterationsSphereX;
+    float modulationSphereY = iterationsSphereY;
+    float modulationSphereZ = iterationsSphereZ;
+    float fractalAmount = fractalAmount * 10.0 - 5.0;
+    float fractalAmountSphere = fractalAmountSphere * 10.0 - 5.0;
 
     // map camera
     float fov = fieldOfView * 3.0;
@@ -221,10 +238,17 @@ void main() {
     rd.xz *= rot2D(-camera.x);
 
     // raymarching
-    for(int i = 0; i < 64; i++) {
+    int i;
+    for(i = 0; i < 64; i++) {
         vec3 p = ro + rd * t; // current position
+
+		// raycontrole
+        p.y += sin(t * modulationRayY * 5.0 - 2.5) * rayModulationFactor;
+        p.x += sin(t * modulationRayX * 5.0 - 2.5) * rayModulationFactor;
+        p.z += sin(t * modulationRayZ * 5.0 - 2.5) * rayModulationFactor;
+
         // distance to closest object
-        float d = map(p, posX0, posY0, posZ0, posX1, posY1, posZ1, sphereSize, boxSize, GroundHeight, time, boxLeftRightCrossfade, boxUpDownCrossfade, sphereLeftRightCrossfade, sphereUpDownCrossfade, modulation, fractalAmount, scaleBoxX, scaleBoxY, scaleBoxZ);
+        float d = map(p, posX0, posY0, posZ0, posX1, posY1, posZ1, sphereSize, boxSize, GroundHeight, time, boxLeftRightCrossfade, boxUpDownCrossfade, sphereLeftRightCrossfade, sphereUpDownCrossfade, modulationX, modulationY, modulationZ, fractalAmount, scaleBoxX, scaleBoxY, scaleBoxZ, modulationSphereX, modulationSphereY, modulationSphereZ, fractalAmountSphere);
 
         t += d; // move along ray by distance to closest object
 
@@ -236,7 +260,8 @@ void main() {
     }
 
     // color debugging
-    col = vec3(t * brightness);
+    // col = vec3(t * brightness);
+    col = palette(((t * (colorPulse * 20.0 - 10.0)) * brightness) + i * 0.005, vec3(pal0R, pal0G, pal0B), vec3(pal1R, pal1G, pal1B), vec3(pal2R, pal2G, pal2B), vec3(pal3R, pal3G, pal3B));
 
     // fragColor = vec4(uvBase, 0.0, 1.0);
     fragColor = vec4(col, 1.0);

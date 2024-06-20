@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FractalTriangleGenerator", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SphereToPlane", "SphereToPlane.vcxproj", "{B046CF74-45D2-46E5-AA90-27F780A5E0EF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3dabsorption", "3dabsorption.vcxproj", "{3EB0EFE5-F3B9-4F1F-A056-732FA597E660}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -68,6 +70,10 @@ Global
 		{B046CF74-45D2-46E5-AA90-27F780A5E0EF}.Debug|x64.Build.0 = Debug|x64
 		{B046CF74-45D2-46E5-AA90-27F780A5E0EF}.Release|x64.ActiveCfg = Release|x64
 		{B046CF74-45D2-46E5-AA90-27F780A5E0EF}.Release|x64.Build.0 = Release|x64
+		{3EB0EFE5-F3B9-4F1F-A056-732FA597E660}.Debug|x64.ActiveCfg = Debug|x64
+		{3EB0EFE5-F3B9-4F1F-A056-732FA597E660}.Debug|x64.Build.0 = Debug|x64
+		{3EB0EFE5-F3B9-4F1F-A056-732FA597E660}.Release|x64.ActiveCfg = Release|x64
+		{3EB0EFE5-F3B9-4F1F-A056-732FA597E660}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,74 +5,74 @@ using namespace ffglex;
 enum ParamType : FFUInt32
 {
 	// koala sexy shaders
-	PT_ITERATIONSX,
-	PT_ITERATIONSY,
-	PT_ITERATIONSZ,
-	PT_ITERATIONSXSPHERE,
-	PT_ITERATIONSYSPHERE,
-	PT_ITERATIONSZSPHERE,
-	PT_FRACTALAMOUNTSPHERE,
-	PT_FRACTALAMOUNT,
-	PT_COLORPULSE,
-	PT_SPEED,
-	PT_REVERSE_TIME,
-	PT_LINETHICKNESS,
-	PT_PALETTE_0_RED,
-	PT_PALETTE_0_GREEN,
-	PT_PALETTE_0_BLUE,
-	PT_PALETTE_1_RED,
-	PT_PALETTE_1_GREEN,
-	PT_PALETTE_1_BLUE,
-	PT_PALETTE_2_RED,
-	PT_PALETTE_2_GREEN,
-	PT_PALETTE_2_BLUE,
-	PT_PALETTE_3_RED,
-	PT_PALETTE_3_GREEN,
-	PT_PALETTE_3_BLUE,
-	PT_POSITION_X,
-	PT_POSITION_Y,
-	PT_POSITION_Z,
-	PT_FIELDOFVIEW,
-	PT_POSITION_X_Box,
-	PT_POSITION_Y_Box,
-	PT_POSITION_Z_Box,
-	PT_SCALESPHERE,
-	PT_SCALEBOX,
-	PT_GROUNDHEIGHT,
-	PT_SPHERESIZE,
-	PT_BOXSIZE,
-	PT_SCALESPHEREX,
-	PT_SCALESPHEREY,
-	PT_SCALESPHEREZ,
-	PT_SCALEBOXX,
-	PT_SCALEBOXY,
-	PT_SCALEBOXZ,
 	PT_BOXLEFTRIGHTCROSSFADE,
+	PT_BOXSIZE,
 	PT_BOXUPDOWNCROSSFADE,
-	PT_SPHERELEFTRIGHTCROSSFADE,
-	PT_SPHEREUPDOWNCROSSFADE,
+	PT_BRIGHTNESS,
 	PT_CAMERA_X,
 	PT_CAMERA_Y,
-	PT_BRIGHTNESS,
+	PT_COLORPULSE,
+	PT_FIELDOFVIEW,
+	PT_FRACTALAMOUNT,
+	PT_FRACTALAMOUNTSPHERE,
+	PT_GROUNDABSORPTION,
+	PT_GROUNDHEIGHT,
+	PT_ITERATIONSX,
+	PT_ITERATIONSXSPHERE,
+	PT_ITERATIONSY,
+	PT_ITERATIONSYSPHERE,
+	PT_ITERATIONSZ,
+	PT_ITERATIONSZSPHERE,
+	PT_LINETHICKNESS,
 	PT_MODULATIONRAYX,
 	PT_MODULATIONRAYY,
 	PT_MODULATIONRAYZ,
+	PT_PALETTE_0_BLUE,
+	PT_PALETTE_0_GREEN,
+	PT_PALETTE_0_RED,
+	PT_PALETTE_1_BLUE,
+	PT_PALETTE_1_GREEN,
+	PT_PALETTE_1_RED,
+	PT_PALETTE_2_BLUE,
+	PT_PALETTE_2_GREEN,
+	PT_PALETTE_2_RED,
+	PT_PALETTE_3_BLUE,
+	PT_PALETTE_3_GREEN,
+	PT_PALETTE_3_RED,
+	PT_POSITION_X_Box,
+	PT_POSITION_X,
+	PT_POSITION_Y_Box,
+	PT_POSITION_Y,
+	PT_POSITION_Z_Box,
+	PT_POSITION_Z,
 	PT_RAYMODULATIONFACTOR,
+	PT_REVERSE_TIME,
+	PT_SCALEBOX,
+	PT_SCALEBOXX,
+	PT_SCALEBOXY,
+	PT_SCALEBOXZ,
+	PT_SCALESPHERE,
+	PT_SCALESPHEREX,
+	PT_SCALESPHEREY,
+	PT_SCALESPHEREZ,
+	PT_SPEED,
 	PT_SPHEREBOXABSORPTION,
-	PT_GROUNDABSORPTION
+	PT_SPHERELEFTRIGHTCROSSFADE,
+	PT_SPHERESIZE,
+	PT_SPHEREUPDOWNCROSSFADE
 };
 
 static CFFGLPluginInfo PluginInfo(
-	PluginFactory< Koala >,              // Create method
-	"KOA1",                              // Plugin unique ID
-	"KoalaSexyShaders",                  // Plugin name
-	2,                                   // API major version number
-	1,                                   // API minor version number
-	1,                                   // Plugin major version number
-	000,                                 // Plugin minor version number
-	FF_SOURCE,                           // Plugin type
-	"Koala Sample FFGL Gradients plugin",// Plugin description
-	"Resolume FFGL Example koala"        // About
+	PluginFactory< Koala >,               // Create method
+	"KOA9",                               // Plugin unique ID
+	"3D Absorption",                      // Plugin name
+	2,                                    // API major version number
+	1,                                    // API minor version number
+	1,                                    // Plugin major version number
+	000,                                  // Plugin minor version number
+	FF_SOURCE,                            // Plugin type
+	"3D fractal using minimal absorption",// Plugin description
+	"Resolume FFGL plug by wonky koala"   // About
 );
 
 static const char vertexShaderCode[] = R"(#version 410 core
@@ -390,7 +390,7 @@ Koala::Koala() :
 
 	speedLocation( -1 ),
 	colorPulseLocation( -1 ),
-	colorPulse( 1.5f ),
+	colorPulse( 0.5f ),
 	speed( 0.4f ),
 
 	palette0RedLocation( -1 ),
@@ -499,9 +499,9 @@ Koala::Koala() :
 
 	// sphereBoxAbsorption, groundAbsorption
 	sphereBoxAbsorptionLocation( -1 ),
-	sphereBoxAbsorption( 0.5f ),
+	sphereBoxAbsorption( 0.2f ),
 	groundAbsorptionLocation( -1 ),
-	groundAbsorption( 0.5f )
+	groundAbsorption( 0.005f )
 {
 	// Input properties
 	SetMinInputs( 0 );
