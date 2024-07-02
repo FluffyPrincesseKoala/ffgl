@@ -219,7 +219,7 @@ void main() {
     rd.xz *= rot2D(-camera.x);
 
     // raymarching
-    for(int i = 0; i < 64; i++) {
+    for (int i = 0; i < 64; i++) {
         vec3 p = ro + rd * t; // current position
         // distance to closest object
         float d = map(p, posX0, posY0, posZ0, posX1, posY1, posZ1, sphereSize, boxSize, GroundHeight, time, boxLeftRightCrossfade, boxUpDownCrossfade, sphereLeftRightCrossfade, sphereUpDownCrossfade, iterations, fractalAmount, scaleBoxX, scaleBoxY, scaleBoxZ);
@@ -227,9 +227,9 @@ void main() {
         t += d; // move along ray by distance to closest object
 
         // col = vec3(float(i)) / 64.0; // color based on iteration
-        if(d < 0.001)
+        if (d < 0.001)
             break; // break if close enough to object
-        if(t > 100.0)
+        if (t > 100.0)
             break; // break if too far away
     }
 
