@@ -28,6 +28,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SphereToPlane", "SphereToPl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3dabsorption", "3dabsorption.vcxproj", "{3EB0EFE5-F3B9-4F1F-A056-732FA597E660}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3dWorld", "3dWorld.vcxproj", "{F07EA598-F03D-4475-B5D8-D7F5EF978811}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -74,6 +76,10 @@ Global
 		{3EB0EFE5-F3B9-4F1F-A056-732FA597E660}.Debug|x64.Build.0 = Debug|x64
 		{3EB0EFE5-F3B9-4F1F-A056-732FA597E660}.Release|x64.ActiveCfg = Release|x64
 		{3EB0EFE5-F3B9-4F1F-A056-732FA597E660}.Release|x64.Build.0 = Release|x64
+		{F07EA598-F03D-4475-B5D8-D7F5EF978811}.Debug|x64.ActiveCfg = Debug|x64
+		{F07EA598-F03D-4475-B5D8-D7F5EF978811}.Debug|x64.Build.0 = Debug|x64
+		{F07EA598-F03D-4475-B5D8-D7F5EF978811}.Release|x64.ActiveCfg = Release|x64
+		{F07EA598-F03D-4475-B5D8-D7F5EF978811}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
