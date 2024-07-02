@@ -31,7 +31,7 @@ static CFFGLPluginInfo PluginInfo(
 	1,                                                       // Plugin major version number
 	000,                                                     // Plugin minor version number
 	FF_SOURCE,                                               // Plugin type
-	"FractalCircleGenerator Sample FFGL 2d shader plugin",   // Plugin description
+	"create neon like Fractal Circle",                       // Plugin description
 	"Resolume FFGL generator that create neon circle fractal"// About
 );
 
