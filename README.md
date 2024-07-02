@@ -17,10 +17,15 @@ While still in development, the plugins offer a few parameters that can be adjus
 # Installation
 
 To try out the FFGL Raymarching Plugin Collection, follow these steps:
+
 To run on Windows, in Visual Studio, launch `/ffgl/build/windows/FFGLPlugins.sln`. Then build the project.
+
 The plugins binaries are built in `/ffgl/binaries/`.
+
 Move all the binairies to `Documents\Resolume Avenue\Extra Effects` to add them to Resolume Avenue.
+
 Copy the compiled plugins to your Resolume plugins directory.
+
 Launch Resolume and sreach for 3D absorption
 
 # TODO:
